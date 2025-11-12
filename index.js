@@ -26,8 +26,16 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
 
-    
+    const db = client.db('book_haven_db')
+    const modelCollection = db.collection('Books')
 
+    app.get('/Books', async (req, res) => {
+      
+      const result = await 
+      modelCollection.find().toArray()
+      res.send(result)
+
+    })
 
 
 
