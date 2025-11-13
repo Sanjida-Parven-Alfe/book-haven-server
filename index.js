@@ -26,7 +26,7 @@ async function run() {
     const db = client.db('book_haven_db');
     const bookCollection = db.collection('Books');
 
-    // ✅ Get all books
+    //Get all books
     app.get('/Books', async (req, res) => {
       try {
         const result = await bookCollection.find().toArray();
@@ -36,7 +36,7 @@ async function run() {
       }
     });
 
-    // ✅ Get books by user email (for MyBooks page)
+    //Get books by user email (for MyBooks page)
     app.get('/my-books/:email', async (req, res) => {
       try {
         const email = req.params.email;
@@ -47,7 +47,7 @@ async function run() {
       }
     });
 
-    // ✅ Get a single book by ID
+    //Get a single book by ID
     app.get('/Books/:id', async (req, res) => {
       const { id } = req.params;
       try {
@@ -59,7 +59,7 @@ async function run() {
       }
     });
 
-    // ✅ Add a new book
+    //Add a new book
     app.post('/Books', async (req, res) => {
       try {
         const data = req.body; // { title, author, genre, rating, summary, coverImage, userEmail }
@@ -74,7 +74,7 @@ async function run() {
       }
     });
 
-    // ✅ Update a book by ID (safe version)
+    //Update a book by ID (safe version)
     app.put('/Books/:id', async (req, res) => {
       const { id } = req.params;
       const updatedBook = { ...req.body }; // expect {title, author, genre, rating, summary, coverImage}
@@ -94,12 +94,12 @@ async function run() {
 
         res.send({ success: true, message: "Book updated successfully" });
       } catch (error) {
-        console.error("Update error:", error); // ✅ log actual error
+        console.error("Update error:", error); //log actual error
         res.status(500).send({ success: false, message: "Failed to update book" });
       }
     });
 
-    // ✅ Delete a book by ID
+    //Delete a book by ID
     app.delete('/Books/:id', async (req, res) => {
       const { id } = req.params;
       try {
@@ -114,7 +114,7 @@ async function run() {
       }
     });
 
-    // ✅ Confirm MongoDB Connection
+    //Confirm MongoDB Connection
     await client.db("admin").command({ ping: 1 });
     console.log("✅ Connected to MongoDB successfully!");
   } finally {
@@ -124,12 +124,12 @@ async function run() {
 
 run().catch(console.dir);
 
-// ✅ Default route
+//Default route
 app.get('/', (req, res) => {
   res.send('📚 Book Haven Server is running!');
 });
 
-// ✅ Start the server
+//Start the server
 app.listen(port, () => {
   console.log(`🚀 Server is running on http://localhost:${port}`);
 });
