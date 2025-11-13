@@ -20,13 +20,13 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
-    // Connect the client to the server (optional starting in v4.7)
+    // Connect the client to the server
     await client.connect();
 
     const db = client.db('book_haven_db')
     const bookCollection = db.collection('Books')
 
-    // Get all books
+    // GET all books
     app.get('/Books', async (req, res) => {
       try {
         const result = await bookCollection.find().toArray()
@@ -36,24 +36,26 @@ async function run() {
       }
     })
 
-    // post method
-    //insertMany
-    //insertOne
+    // POST a new book
+    app.post('/Books', async (req, res) => {
+      try {
+        const data = req.body
+        const result = await bookCollection.insertOne(data)
+        res.send({
+          success: true,
+          message: "Book added successfully",
+          data: result
+        })
+      } catch (error) {
+        res.status(500).send({ success: false, message: "Failed to add book" })
+      }
+    })
 
-    app.post('/Books', (req, res) =>{
-      const data = req.body
-      console.log(data)
-      // const result = bookCollection.insertOne('') 
-      res.send({
-        success: true
-      })
-    } )
-
-    // Get book by ID
+    // GET a book by ID
     app.get('/Books/:id', async (req, res) => {
       const { id } = req.params
       try {
-        const book = await modelCollection.findOne({ _id: new ObjectId(id) })
+        const book = await bookCollection.findOne({ _id: new ObjectId(id) })
         if (!book) {
           return res.status(404).send({ message: "Book not found" })
         }
