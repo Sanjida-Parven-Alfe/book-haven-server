@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
+require("dotenv").config()
 const app = express();
 const port = 3000;
 
@@ -9,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 // MongoDB URI
-const uri = "mongodb+srv://book_haven_db:UDsLM2ooefnyhv7O@cluster0.5scl4km.mongodb.net/?appName=Cluster0";
+const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.5scl4km.mongodb.net/?appName=Cluster0`;
 
 // MongoDB client setup
 const client = new MongoClient(uri, {
